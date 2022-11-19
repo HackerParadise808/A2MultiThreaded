@@ -16,7 +16,7 @@
  *  - the total number of matrices produced (matrixtotal from each producer thread)
  *  - the total number of matrices consumed (matrixtotal from each consumer thread)
  *  - the sum of all elements of all matrices produced and consumed (sumtotal from each producer and consumer thread)
- *  
+ *
  *  Then, these values from each thread are aggregated in main thread for output
  *
  *  Correct programs will produce and consume the same number of matrices, and
