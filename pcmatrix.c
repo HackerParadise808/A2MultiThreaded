@@ -48,7 +48,7 @@ int main (int argc, char * argv[])
     BOUNDED_BUFFER_SIZE=MAX;
     NUMBER_OF_MATRICES=LOOPS;
     MATRIX_MODE=DEFAULT_MATRIX_MODE;
-    printf("USING DEFAULTS: worker_threads=%d bounded_buffer_size=%d matricies=%d matrix_mode=%d\n",numw,BOUNDED_BUFFER_SIZE,NUMBER_OF_MATRICES,MATRIX_MODE);
+    // printf("USING DEFAULTS: worker_threads=%d bounded_buffer_size=%d matricies=%d matrix_mode=%d\n",numw,BOUNDED_BUFFER_SIZE,NUMBER_OF_MATRICES,MATRIX_MODE);
   }
   else
   {
@@ -66,7 +66,7 @@ int main (int argc, char * argv[])
       NUMBER_OF_MATRICES=LOOPS;
       MATRIX_MODE=DEFAULT_MATRIX_MODE;
     }
-    if (argc==4)
+  if (argc==4)
     {
       numw=atoi(argv[1]);
       BOUNDED_BUFFER_SIZE=atoi(argv[2]);
@@ -80,7 +80,7 @@ int main (int argc, char * argv[])
       NUMBER_OF_MATRICES=atoi(argv[3]);
       MATRIX_MODE=atoi(argv[4]);
     }
-    printf("USING: worker_threads=%d bounded_buffer_size=%d matricies=%d matrix_mode=%d\n",numw,BOUNDED_BUFFER_SIZE,NUMBER_OF_MATRICES,MATRIX_MODE);
+    // printf("USING: worker_threads=%d bounded_buffer_size=%d matricies=%d matrix_mode=%d\n",numw,BOUNDED_BUFFER_SIZE,NUMBER_OF_MATRICES,MATRIX_MODE);
   }
 
   time_t t;
@@ -92,31 +92,31 @@ int main (int argc, char * argv[])
   //
   // DELETE THIS CODE FOR YOUR SUBMISSION
   // ----------------------------------------------------------
-  bigmatrix = (Matrix **) malloc(sizeof(Matrix *) * BOUNDED_BUFFER_SIZE);
-  printf("MATRIX MULTIPLICATION DEMO:\n\n");
-  Matrix *m1, *m2, *m3;
-  for (int i=0;i<NUMBER_OF_MATRICES;i++)
-  {
-    m1 = GenMatrixRandom();
-    m2 = GenMatrixRandom();
-    m3 = MatrixMultiply(m1, m2);
-    if (m3 != NULL)
-    {
-      DisplayMatrix(m1,stdout);
-      printf("    X\n");
-      DisplayMatrix(m2,stdout);
-      printf("    =\n");
-      DisplayMatrix(m3,stdout);
-      printf("\n");
-      FreeMatrix(m3);
-      FreeMatrix(m2);
-      FreeMatrix(m1);
-      m1=NULL;
-      m2=NULL;
-      m3=NULL;
-    }
-  }
-  return 0;
+  // bigmatrix = (Matrix **) malloc(sizeof(Matrix *) * BOUNDED_BUFFER_SIZE);
+  // printf("MATRIX MULTIPLICATION DEMO:\n\n");
+  // Matrix *m1, *m2, *m3;
+  // for (int i=0;i<NUMBER_OF_MATRICES;i++)
+  // {
+  //   m1 = GenMatrixRandom();
+  //   m2 = GenMatrixRandom();
+  //   m3 = MatrixMultiply(m1, m2);
+  //   if (m3 != NULL)
+  //   {
+  //     DisplayMatrix(m1,stdout);
+  //     printf("    X\n");
+  //     DisplayMatrix(m2,stdout);
+  //     printf("    =\n");
+  //     DisplayMatrix(m3,stdout);
+  //     printf("\n");
+  //     FreeMatrix(m3);
+  //     FreeMatrix(m2);
+  //     FreeMatrix(m1);
+  //     m1=NULL;
+  //     m2=NULL;
+  //     m3=NULL;
+  //   }
+  // }
+  // return 0;
   // ----------------------------------------------------------
 
 
@@ -127,11 +127,25 @@ int main (int argc, char * argv[])
   printf("\n");
 
   // Here is an example to define one producer and one consumer
-  pthread_t pr;
-  pthread_t co;
+  // pthread_t pr;
+  // pthread_t co;
 
   // Add your code here to create threads and so on
+  bigmatrix = (Matrix **) malloc(sizeof(Matrix *) * BOUNDED_BUFFER_SIZE);
+  printf("Created thread\n");
+  pthread_t pr;
+  pthread_t co;
+  printf("Worker thread running\n");
+  pthread_create(&pr, NULL, prod_worker, LOOPS);
+  printf("Consumer thread running\n");
+  pthread_create(&co, NULL, cons_worker, LOOPS);
 
+
+    printf("Join threads pr\n");
+    pthread_join(pr, NULL);
+    printf("Join threads co\n");
+    pthread_join(co, NULL);
+    printf("Done\n");
 
   // These are used to aggregate total numbers for main thread output
   int prs = 0; // total #matrices produced

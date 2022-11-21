@@ -18,7 +18,7 @@ typedef struct prodcons {
   int sumtotal;
   int multtotal;
   int matrixtotal;
-} ProdConsStats;
+} prodcons;
 
 
 
